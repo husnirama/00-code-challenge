@@ -1,5 +1,5 @@
 import Header from "../components/Header";
-import React from "react";
+import { useState } from "react";
 
 type IProject = {
   title: string;
@@ -99,6 +99,9 @@ function StarBlock({ title, text }: { title: string; text: string }) {
 }
 
 function PortfolioPage() {
+  const [showAll, setShowAll] = useState(false);
+  const visibleProjects = showAll ? projects : projects.slice(0, 1);
+
   return (
     <section className="relative min-h-screen overflow-hidden bg-[#0b0b2a]">
       <div className="pointer-events-none absolute inset-0">
@@ -109,7 +112,7 @@ function PortfolioPage() {
       <div className="relative z-10">
         <Header />
         <div className="grid gap-10 mx-auto mt-20 max-w-7xl px-12">
-          {projects.map((p) => (
+          {visibleProjects.map((p) => (
             <article
               key={p.title}
               className="rounded-2xl bg-white/10 p-6 backdrop-blur"
@@ -189,6 +192,14 @@ function PortfolioPage() {
             </article>
           ))}
         </div>
+      </div>
+      <div className="mt-14 mb-10 flex justify-center">
+        <button
+          onClick={() => setShowAll((prev) => !prev)}
+          className="rounded-full border-2 border-red-500 px-10 py-3 text-sm font-semibold tracking-widest text-white transition hover:bg-red-500 hover:text-white"
+        >
+          {showAll ? "VIEW LESS" : "VIEW MORE"}
+        </button>
       </div>
     </section>
   );
